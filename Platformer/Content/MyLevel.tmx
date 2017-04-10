@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="20" tilewidth="70" tileheight="70" nextobjectid="1">
+ <tileset firstgid="1" name="TileSet" tilewidth="70" tileheight="70" spacing="2" margin="2" tilecount="196" columns="14">
+  <image source="FantasyTileset.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Background" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA9UKOzPlxAZQDNI8YvpJhHjNpR86hjHrXiTgWNptQ8cuymlnmkgKFingSZ+tHTBynxjA4ksOgj1zw1qB5KwotQ2gcAqfoFcw==
+  </data>
+ </layer>
+ <layer name="Platform" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBh8YD8afzWU9gJiHSD2pq9zwGANDgwDq7FpGiSAWLetIayELHOHItg40A4AAk8ohgFY+ofhgcgHpAIbILaFYrsBdstAgIEss7ABbQbUNISO8QF0tbpADACbnw8u
+  </data>
+ </layer>
+ <layer name="Ladder" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFAwk2jZo3at4oGAVDFAAAla4E3w==
+  </data>
+ </layer>
+ <layer name="DoorOpen" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDDewFgdeM5COGgUkgXYqm9dGZfNAAACwPQXI
+  </data>
+ </layer>
+ <layer name="DoorClosed" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApIBwAGQAAB
+  </data>
+ </layer>
+ <layer name="Climby" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BwgZmj5g0q80bBKMAFACGjAv4=
+  </data>
+ </layer>
+ <layer name="Boxes" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYEAFOxhGwSggDawZaAcMINg90A7AAkZafAzGOBgpAAAN6AOH
+  </data>
+ </layer>
+ <layer name="Ice" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoYGIyhmFgAABiUAGc=
+  </data>
+ </layer>
+ <layer name="Water" width="20" height="20">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMAoQYBYWjA0AAGaAAwM=
+  </data>
+ </layer>
+</map>
