@@ -13,6 +13,7 @@ namespace Platformer
     {
         public Vector2 position;
         public Vector2 offset;
+        public Color colour;
 
         Texture2D texture;
 
@@ -20,6 +21,7 @@ namespace Platformer
         {
             position = Vector2.Zero;
             offset = Vector2.Zero;
+            colour = Color.White;
         }
 
         public void Load(ContentManager content, string asset)
@@ -36,7 +38,7 @@ namespace Platformer
         public void Draw(SpriteBatch spriteBatch)
         {
            
-            spriteBatch.Draw(texture, position + offset, Color.White);
+            spriteBatch.Draw(texture, position + offset, colour);
         }
 
 

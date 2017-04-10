@@ -18,6 +18,8 @@ namespace Platformer
         public Player()
         {
             playerSpeed = 20f;
+            sprite.colour = new Color(89, 66, 244);
+            
         }
 
         public void Load(ContentManager content)
