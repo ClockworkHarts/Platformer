@@ -4,12 +4,12 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Arial.spritefont</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/hero.png</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/FantasyTileset.png</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/MyLevel.tmx</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test.tmx</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Tileset.png</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test3.tmx</File>
+    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Arial.spritefont</File>
+    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/hero.png</File>
+    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/FantasyTileset.png</File>
+    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/MyLevel.tmx</File>
+    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test.tmx</File>
+    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Tileset.png</File>
+    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test3.tmx</File>
   </SourceFiles>
 </SourceFileCollection>

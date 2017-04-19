@@ -59,3 +59,10 @@ E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windo
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Tileset.xnb
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Test2.xnb
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Test3.xnb
+G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Test2.xnb
+G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\FantasyTileset.xnb
+G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\MyLevel.xnb
+G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Test.xnb
+G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Tileset.xnb
+G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Test3.xnb
+G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\MonoGame.Extended.dll

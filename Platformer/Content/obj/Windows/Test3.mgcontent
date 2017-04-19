@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test3.tmx</SourceFile>
+  <SourceFile>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test3.tmx</SourceFile>
   <SourceTime>2017-04-10T19:23:54+09:30</SourceTime>
-  <DestFile>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/bin/Windows/Test3.xnb</DestFile>
-  <DestTime>2017-04-10T19:38:34+09:30</DestTime>
+  <DestFile>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/bin/Windows/Test3.xnb</DestFile>
+  <DestTime>2017-04-19T10:48:36+09:30</DestTime>
   <Importer>TiledMapImporter</Importer>
   <ImporterTime>2015-12-13T10:31:36+10:30</ImporterTime>
   <Processor>TiledMapProcessor</Processor>

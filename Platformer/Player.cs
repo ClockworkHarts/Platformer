@@ -13,12 +13,36 @@ namespace Platformer
     class Player
     {
         Sprite sprite = new Sprite();
-        float playerSpeed;
 
-        public Player()
+        // keep reference to the game object
+        // so we can check for collisions on the map
+        Game1 game = null;
+
+        bool isFalling = true;
+        bool isJumping = false;
+
+        Vector2 velocity = Vector2.Zero;
+        Vector2 position = Vector2.Zero;
+
+        public Vector2 Position   //supposed to be caps???
         {
-            playerSpeed = 20f;
+            get
+            {
+                return sprite.position;
+            }
+        }
+
+
+
+        public Player(Game1 game)
+        {
             sprite.colour = new Color(89, 66, 244);
+
+            this.game = game;
+            isFalling = true;
+            isJumping = false;
+            velocity = Vector2.Zero;
+            position = Vector2.Zero;
             
         }
 
@@ -27,29 +51,148 @@ namespace Platformer
             sprite.Load(content, "hero");
         }
 
-        public void Update(float deltaTime)
+        private void UpdateInput(float deltaTime)
         {
-            sprite.Update(deltaTime);
+            bool wasMovingLeft = velocity.X < 0;
+            bool wasMovingRight = velocity.X > 0;
+            bool falling = isFalling;
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D) == true)
-            {
-                sprite.position.X += playerSpeed;
-            }
+            Vector2 acceleration = new Vector2(0, Game1.gravity);
 
             if (Keyboard.GetState().IsKeyDown(Keys.A) == true)
             {
-                sprite.position.X -= playerSpeed;
+                acceleration.X -= Game1.acceleration;
+            }
+            else if (wasMovingLeft == true)
+            {
+                acceleration.X += Game1.friction;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W) == true)
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D) == true)
             {
-                sprite.position.Y -= playerSpeed;
+                acceleration.X += Game1.acceleration;
+            }
+            else if (wasMovingRight == true)
+            {
+                acceleration.X -= Game1.friction;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.S) == true)
+
+            if (Keyboard.GetState().IsKeyDown(Keys.W) == true && this.isJumping == false && falling == false)
             {
-                sprite.position.Y += playerSpeed;
+                acceleration.Y -= Game1.jumpImpulse;
+                this.isJumping = true;
             }
+
+            // calculates velocity every frame based on new acceleration input
+            velocity += acceleration * deltaTime;
+
+
+            // clamps velocity so that the player doesn't continuously accelerate if a key is held down
+            velocity.X = MathHelper.Clamp(velocity.X, -Game1.maxVelocity.X, Game1.maxVelocity.X);
+            velocity.Y = MathHelper.Clamp(velocity.Y, -Game1.maxVelocity.Y, Game1.maxVelocity.Y);
+
+
+            // actually updates the sprite's position every frame
+            sprite.position += velocity * deltaTime;
+
+            // to stop the player from jiggling as a result
+            // of the friction force used to slower the player down
+            // not being precisely equal to their forwards force
+            // we will clamp the player's horizontal velocity to zero if
+            // we detect that the player's direction has just changed
+            // essentially, if the player was just moving left and now their velocity is positive (in the right direction)
+            // make their horizontal velocity == to 0 for a frame, 
+            // before their velocity gets updated again
+            if ((wasMovingLeft && (velocity.X > 0)) || (wasMovingRight && (velocity.X < 0)))
+            {
+                velocity.X = 0;
+            }
+
+
+
+
+            //BELOW IS ALL COLLISION LOGIC\\
+
+            int tx = game.PixelToTile(sprite.position.X);
+            int ty = game.PixelToTile(sprite.position.Y);
+
+            // x % y divides x by y then looks at the remainder
+            // because tile = 64, when the sprite's position (a single pixel)
+            // is equal to 64, the remainder is zero,
+            // therefore the sprite is only on one tile
+            // in any other case, it is overlapping two or more tiles
+            // therefore the bools are true
+            // nx checks left/right overlapping
+            // ny checks up/down overlapping 
+            bool nx = (sprite.position.X) % Game1.tile != 0;
+            bool ny = (sprite.position.Y) % Game1.tile != 0;
+
+            bool cell = game.CellAtTileCoord(tx, ty) != 0;
+            bool cellright = game.CellAtTileCoord(tx + 1, ty) != 0;
+            bool celldown = game.CellAtTileCoord(tx, ty + 1) != 0;
+            bool celldiag = game.CellAtTileCoord(tx + 1, ty + 1) != 0;
+
+
+            //if player has vertical velocity
+            //check to see if they have collided with a platform above or below
+            //if they have clamp their vertical velocity
+            if (this.velocity.Y > 0)
+            {
+                if ((celldown && !cell) || (celldiag && !cellright && nx))
+                {
+                    sprite.position.Y = game.TileToPixel(ty);
+                    this.velocity.Y = 0;
+                    this.isFalling = false;
+                    this.isJumping = false;
+                    ny = false;
+                }
+            }
+            else if (this.velocity.Y < 0)
+            {
+                if ((cell && !celldown) || (cellright && !celldiag && nx))
+                {
+                    sprite.position.Y = game.TileToPixel(ty + 1);
+                    this.velocity.Y = 0;
+                    cell = celldown;
+                    cellright = celldiag;
+                    ny = false;
+
+                }
+            }
+
+
+            //same as above but for horizontal velocity
+            if (this.velocity.X > 0)
+            {
+                if ((cellright && !cell) || (celldiag && !celldown && ny))
+                {
+                    sprite.position.X = game.TileToPixel(tx);
+                    this.velocity.X = 0;
+                }
+            }
+            else if (this.velocity.X < 0)
+            {
+                if ((cell && !cellright) || (celldown && !celldiag && ny))
+                {
+                    sprite.position.X = game.TileToPixel(tx + 1);
+                    this.velocity.X = 0;
+                }
+            }
+
+
+            // then we need to detect if the player is falling or not
+            // we do this by seeing if there is a cell below them
+            this.isFalling = !(celldown || (nx && celldiag));
+        
+
+        }
+
+        public void Update(float deltaTime)
+        {
+            sprite.Update(deltaTime);
+            UpdateInput(deltaTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
