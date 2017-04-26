@@ -5,11 +5,11 @@
   <Config />
   <SourceFiles>
     <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Arial.spritefont</File>
-    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/hero.png</File>
     <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/FantasyTileset.png</File>
     <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/MyLevel.tmx</File>
     <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test.tmx</File>
     <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Tileset.png</File>
     <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test3.tmx</File>
+    <File>G:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/walk.png</File>
   </SourceFiles>
 </SourceFileCollection>

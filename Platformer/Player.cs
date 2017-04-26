@@ -24,7 +24,7 @@ namespace Platformer
         Vector2 velocity = Vector2.Zero;
         Vector2 position = Vector2.Zero;
 
-        public Vector2 Position   //supposed to be caps???
+        public Vector2 Position
         {
             get
             {
@@ -48,7 +48,11 @@ namespace Platformer
 
         public void Load(ContentManager content)
         {
-            sprite.Load(content, "hero");
+            AnimatedTexture animation = new AnimatedTexture(Vector2.Zero, 0, 1, 1);
+            animation.Load(content, "walk", 12, 20);
+
+            sprite.Add(animation, 0, -5);
+            sprite.Pause();
         }
 
         private void UpdateInput(float deltaTime)
@@ -62,6 +66,8 @@ namespace Platformer
             if (Keyboard.GetState().IsKeyDown(Keys.A) == true)
             {
                 acceleration.X -= Game1.acceleration;
+                sprite.SetFlipped(true);
+                sprite.Play();
             }
             else if (wasMovingLeft == true)
             {
@@ -72,6 +78,8 @@ namespace Platformer
             if (Keyboard.GetState().IsKeyDown(Keys.D) == true)
             {
                 acceleration.X += Game1.acceleration;
+                sprite.SetFlipped(false);
+                sprite.Play();
             }
             else if (wasMovingRight == true)
             {
@@ -108,6 +116,7 @@ namespace Platformer
             if ((wasMovingLeft && (velocity.X > 0)) || (wasMovingRight && (velocity.X < 0)))
             {
                 velocity.X = 0;
+                sprite.Pause();
             }
 
 
@@ -170,6 +179,7 @@ namespace Platformer
                 {
                     sprite.position.X = game.TileToPixel(tx);
                     this.velocity.X = 0;
+                    sprite.Pause();
                 }
             }
             else if (this.velocity.X < 0)
@@ -178,6 +188,7 @@ namespace Platformer
                 {
                     sprite.position.X = game.TileToPixel(tx + 1);
                     this.velocity.X = 0;
+                    sprite.Pause();
                 }
             }
 

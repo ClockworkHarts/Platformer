@@ -17,6 +17,13 @@ namespace Platformer
 
         Texture2D texture;
 
+        List<AnimatedTexture> animations = new List<AnimatedTexture>();
+        List<Vector2> animationOffsets = new List<Vector2>();
+
+        int currentAnimation = 0;
+
+        SpriteEffects effects = SpriteEffects.None;
+
         public Sprite()
         {
             position = Vector2.Zero;
@@ -24,21 +31,49 @@ namespace Platformer
             colour = Color.White;
         }
 
-        public void Load(ContentManager content, string asset)
+        /*may not be needed*/ public void Load(ContentManager content, string asset)
         {
             texture = content.Load<Texture2D>(asset);
+        }
 
+        public void Add(AnimatedTexture animation, int xOffset=0, int yOffset = 0)
+        {
+            animations.Add(animation);
+            animationOffsets.Add(new Vector2(xOffset, yOffset));
         }
 
         public void Update(float deltaTime)
         {
-
+            animations[currentAnimation].UpdateFrame(deltaTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-           
-            spriteBatch.Draw(texture, position + offset, colour);
+            /* may not be needed*/ spriteBatch.Draw(texture, position + offset, colour);
+
+            animations[currentAnimation].DrawFrame(spriteBatch, position + animationOffsets[currentAnimation]);
+        }
+
+        public void SetFlipped(bool state)
+        {
+            if (state == true)
+            {
+                effects = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                effects = SpriteEffects.None;
+            }
+        }
+
+        public void Pause()
+        {
+            animations[currentAnimation].Pause();
+        }
+
+        public void Play()
+        {
+            animations[currentAnimation].Play();
         }
 
 

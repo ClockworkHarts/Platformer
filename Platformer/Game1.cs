@@ -85,7 +85,7 @@ namespace Platformer
             camera = new Camera2D(viewportAdapter);
             camera.Position = new Vector2(0, ScreenHeight);
 
-            map = Content.Load<TiledMap>("Test3");
+            map = Content.Load<TiledMap>("Test3");         
             foreach (TiledTileLayer layer in map.TileLayers)
             {
                 if (layer.Name == "NAMEHERE")
