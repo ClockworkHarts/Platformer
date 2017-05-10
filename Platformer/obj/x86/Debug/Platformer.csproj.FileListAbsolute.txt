@@ -28,7 +28,6 @@ G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\obj\x86\D
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\obj\x86\Debug\Platformer.exe
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\obj\x86\Debug\Platformer.pdb
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Arial.xnb
-E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\hero.xnb
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\FantasyTileset.xnb
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\MyLevel.xnb
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Platformer.exe
@@ -66,3 +65,5 @@ G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windo
 G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Tileset.xnb
 G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Test3.xnb
 G:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\MonoGame.Extended.dll
+E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\walk.xnb
+E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\Heart.xnb

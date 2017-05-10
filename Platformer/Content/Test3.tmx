@@ -3,7 +3,7 @@
  <tileset firstgid="1" name="TileSetShit" tilewidth="64" tileheight="64" tilecount="72" columns="8">
   <image source="Tileset.png" width="512" height="576"/>
  </tileset>
- <layer name="Tile Layer 1" width="20" height="20">
+ <layer name="Collisions" width="20" height="20">
   <data encoding="base64" compression="zlib">
    eJxjYBgFgwGooPHdgNgdiD2oZB4yYAZibiBmoYJ5XEAsjIR5SDTPEoitgNiOgHpWIGYjw324AMjd3FCMzc3YzCPVDmrpJdc8dxw0NjPwmYeuDx3A4hCGQXEpR4Y5+IAaBXrxmQfLZ+iY1HxHrPuw5Wts6ZoY81xxYBkGzPyiB6XR44oSDIpnALA4EDM=
   </data>

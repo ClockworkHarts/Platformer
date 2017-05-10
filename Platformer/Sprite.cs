@@ -49,9 +49,7 @@ namespace Platformer
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            /* may not be needed*/ spriteBatch.Draw(texture, position + offset, colour);
-
-            animations[currentAnimation].DrawFrame(spriteBatch, position + animationOffsets[currentAnimation]);
+            animations[currentAnimation].DrawFrame(spriteBatch, position + animationOffsets[currentAnimation], colour, effects);
         }
 
         public void SetFlipped(bool state)

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Platformer
 {
@@ -24,6 +25,10 @@ namespace Platformer
         Vector2 velocity = Vector2.Zero;
         Vector2 position = Vector2.Zero;
 
+        // sound related stuff
+        SoundEffect jumpSound;
+        SoundEffectInstance jumpSoundInstance;
+
         public Vector2 Position
         {
             get
@@ -36,7 +41,7 @@ namespace Platformer
 
         public Player(Game1 game)
         {
-            sprite.colour = new Color(89, 66, 244);
+            sprite.colour = new Color(89, 66, 244, 1);
 
             this.game = game;
             isFalling = true;
@@ -53,6 +58,9 @@ namespace Platformer
 
             sprite.Add(animation, 0, -5);
             sprite.Pause();
+
+            jumpSound = content.Load<SoundEffect>("Jump");
+            jumpSoundInstance = jumpSound.CreateInstance();
         }
 
         private void UpdateInput(float deltaTime)
@@ -91,6 +99,7 @@ namespace Platformer
             {
                 acceleration.Y -= Game1.jumpImpulse;
                 this.isJumping = true;
+                jumpSoundInstance.Play();
             }
 
             // calculates velocity every frame based on new acceleration input
@@ -119,6 +128,10 @@ namespace Platformer
                 sprite.Pause();
             }
 
+            if (velocity.X == 0 || isFalling == true || isJumping == true)
+            {
+                sprite.Pause();
+            }
 
 
 

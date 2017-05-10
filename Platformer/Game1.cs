@@ -5,6 +5,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.Maps.Tiled;
 using MonoGame.Extended.ViewportAdapters;
 using System;
+using Microsoft.Xna.Framework.Media;            
 
 namespace Platformer
 {
@@ -19,6 +20,15 @@ namespace Platformer
         Camera2D camera = null;
         TiledMap map = null;
         TiledTileLayer collisionLayer;
+
+        SpriteFont arialFont;
+
+        Texture2D heart = null;
+
+        Song gameMusic;
+
+        int score = 0;
+        int lives = 5;
 
         // functions for screen width and height
         public int ScreenWidth
@@ -40,7 +50,7 @@ namespace Platformer
         // all constant definitions
         public static int tile = 64;
         public static float meter = tile;
-        public static float gravity = meter * 9.8f * 6.0f;
+        public static float gravity = meter * 9.8f * 4.0f;
         public static Vector2 maxVelocity = new Vector2(meter * 10, meter * 15);
         public static float acceleration = maxVelocity.X * 2;
         public static float friction = maxVelocity.X * 6;
@@ -80,17 +90,24 @@ namespace Platformer
             // TODO: use this.Content to load your game content here
             player.Load(Content);
 
-            var viewportAdapter = new BoxingViewportAdapter(GraphicsDevice, ScreenWidth, ScreenHeight);
+            arialFont = Content.Load<SpriteFont>("Arial");
 
+            heart = Content.Load<Texture2D>("Heart");
+
+            var viewportAdapter = new BoxingViewportAdapter(GraphicsDevice, ScreenWidth, ScreenHeight);
             camera = new Camera2D(viewportAdapter);
             camera.Position = new Vector2(0, ScreenHeight);
 
             map = Content.Load<TiledMap>("Test3");         
             foreach (TiledTileLayer layer in map.TileLayers)
             {
-                if (layer.Name == "NAMEHERE")
+                if (layer.Name == "Collisions")
                     collisionLayer = layer;
             }
+
+            // game music 
+            gameMusic = Content.Load<Song>("SuperHero_violin_no_Intro");
+            MediaPlayer.Play(gameMusic);
         }
 
         
@@ -130,6 +147,16 @@ namespace Platformer
 
             spriteBatch.Begin(transformMatrix: t);
             player.Draw(spriteBatch);
+            spriteBatch.End();
+
+            //          All GUI components below
+            spriteBatch.Begin();
+            spriteBatch.DrawString(arialFont, "Score : " + score.ToString(), new Vector2(1180, 30), Color.White);
+
+            for (int i = 0; i < lives; i++)
+            {
+                spriteBatch.Draw(heart, new Vector2(20 + i * 35, 20), null, Color.White, 0f, new Vector2(0,0), 1.35f, SpriteEffects.None, 0f);
+            }
             spriteBatch.End();
             
             base.Draw(gameTime);
