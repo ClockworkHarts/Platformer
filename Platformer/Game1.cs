@@ -5,8 +5,9 @@ using MonoGame.Extended;
 using MonoGame.Extended.Maps.Tiled;
 using MonoGame.Extended.ViewportAdapters;
 using System;
-using Microsoft.Xna.Framework.Media;            
-
+using Microsoft.Xna.Framework.Media;
+using System.Collections.Generic;
+using System.Collections;
 namespace Platformer
 {
     
@@ -15,20 +16,29 @@ namespace Platformer
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //player
         Player player = null;
+        int score = 0;
 
+        //game
         Camera2D camera = null;
         TiledMap map = null;
         TiledTileLayer collisionLayer;
-
-        SpriteFont arialFont;
-
-        Texture2D heart = null;
-
         Song gameMusic;
 
-        int score = 0;
-        int lives = 5;
+        //enemies
+        List<Enemy> enemies = new List<Enemy>();
+
+        //items
+        List<Coin> coins = new List<Coin>();
+
+        //HUD
+        SpriteFont arialFont;
+        Texture2D heart = null;
+
+        
+
+        
 
         // functions for screen width and height
         public int ScreenWidth
@@ -46,9 +56,11 @@ namespace Platformer
             }
         }
 
-
+        int viewWidth = 350;
+        float deltaTime;
+        int viewHeight = 280;
         // all constant definitions
-        public static int tile = 64;
+        public static int tile = 16;
         public static float meter = tile;
         public static float gravity = meter * 9.8f * 4.0f;
         public static Vector2 maxVelocity = new Vector2(meter * 10, meter * 15);
@@ -61,6 +73,7 @@ namespace Platformer
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.IsFixedTimeStep = false;
         }
 
         
@@ -68,7 +81,7 @@ namespace Platformer
         {
             // TODO: Add your initialization logic here
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferWidth = 1080;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
 
@@ -94,11 +107,11 @@ namespace Platformer
 
             heart = Content.Load<Texture2D>("Heart");
 
-            var viewportAdapter = new BoxingViewportAdapter(GraphicsDevice, ScreenWidth, ScreenHeight);
+            var viewportAdapter = new BoxingViewportAdapter(GraphicsDevice, viewWidth, viewHeight);
             camera = new Camera2D(viewportAdapter);
-            camera.Position = new Vector2(0, ScreenHeight);
+            camera.Position = new Vector2(0, ScreenHeight/2);
 
-            map = Content.Load<TiledMap>("Test3");         
+            map = Content.Load<TiledMap>("PLS");         
             foreach (TiledTileLayer layer in map.TileLayers)
             {
                 if (layer.Name == "Collisions")
@@ -108,6 +121,14 @@ namespace Platformer
             // game music 
             gameMusic = Content.Load<Song>("SuperHero_violin_no_Intro");
             MediaPlayer.Play(gameMusic);
+
+            //loading enemies
+            LoadAllEnemies();
+
+            //loading items
+            LoadAllCoins();
+            
+
         }
 
         
@@ -116,23 +137,151 @@ namespace Platformer
             // TODO: Unload any non ContentManager content here
         }
 
-              
+        // loads all enemies
+        private void LoadAllEnemies()
+        {
+            LoadEnemy(900, 208);
+            LoadEnemy(1155, 144);
+            LoadEnemy(1255, 80);
+            LoadEnemy(1337, 80);
+            LoadEnemy(1417, 80);
+            LoadEnemy(1660, 176);
+            LoadEnemy(1705, 176);
+            LoadEnemy(1755, 176);
+            LoadEnemy(1786, 176);
+            LoadEnemy(1940, 144);
+            LoadEnemy(140, 240);
+            LoadEnemy(2180, 208);
+        }
+
+        // loads all coins
+        private void LoadAllCoins()
+        {
+            LoadCoin(47, 256);
+            LoadCoolCoin(55, 256);
+        }
+
+
+        // loads one enemy
+        private void LoadEnemy(int x, int y)
+        {
+            Enemy enemy = new Enemy(this);
+            enemy.Load(Content);
+            enemy.Position = new Vector2(x, y);
+            enemies.Add(enemy);
+        }
+
+        // loads one standard coin
+        private void LoadCoin(int x, int y)
+        {
+            Coin coin = new Platformer.Coin(this);
+            coin.Load(Content);
+            coin.Position = new Vector2(x, y);
+            coins.Add(coin);
+        }
+
+        // loads one special coin
+        private void LoadCoolCoin(int x, int y)
+        {
+            Coin coin = new Platformer.Coin(this);
+            coin.Load(Content);
+            coin.Position = new Vector2(x, y);
+            coin.isLitFam = true;
+            coins.Add(coin);
+        }
+        private void CheckEnemyCollisions()
+        {
+            foreach (Enemy e in enemies)
+            {
+                if (IsColliding(player.Bounds, e.Bounds) == true)
+                {
+                    if (player.IsJumping && player.Velocity.Y > 0)
+                    {
+                        player.JumpOnCollision();
+                        enemies.Remove(e);
+                        score += 30;
+                        break;
+                    }
+                    else
+                    {
+                        // if player dies
+                        // respawn player, reset score, remove all enemies, reload all enemies
+                        player.Respawn();
+                        score = 0;
+                        //ADD IN SOME CODE TO REMOVE ALL ENEMIES 
+                        //LoadAllEnemies();
+                    }
+                }
+                
+            }
+        }
+
+        private void CheckCoinCollisions()
+        {
+            foreach (Coin c in coins)
+            {
+                if (IsColliding(player.Bounds, c.Bounds) == true)
+                {
+                    if (c.isLitFam == true)
+                    {
+                        score += 50;
+                        coins.Remove(c);
+                        break;
+                    }
+                    else
+                    {
+                        score += 10;
+                        coins.Remove(c);
+                        break;
+                    }
+                }
+            }
+        }
+
+
+        private bool IsColliding(Rectangle rect1, Rectangle rect2)
+        {
+            if (rect1.X + rect2.Width < rect2.X ||
+                rect1.X> rect2.X + rect2.Width ||
+                rect1.Y + rect1.Height < rect2.Y ||
+                rect1.Y > rect2.Y + rect2.Height)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic here
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             player.Update(deltaTime);
+            foreach (Enemy e in enemies)
+            {
+                e.Update(deltaTime);
+            }
+            foreach (Coin c in coins)
+            {
+                c.Update(deltaTime);
+            } 
 
             // updates the camera so it follows the player
             // by always drawing from the player position
             // minus (eg towards the top left) half of the screen size
-            camera.Position = player.Position - new Vector2(ScreenWidth / 2, ScreenHeight / 2);
+            camera.Position = player.Position - new Vector2(viewWidth / 2, viewHeight/2);
+
+            CheckEnemyCollisions();
+            CheckCoinCollisions();
 
             base.Update(gameTime);
+
         }
 
         
@@ -144,19 +293,38 @@ namespace Platformer
             // TODO: Add your drawing code here
             var t = camera.GetViewMatrix();
             map.Draw(camera); 
-
+            
             spriteBatch.Begin(transformMatrix: t);
             player.Draw(spriteBatch);
+
+            foreach (Enemy e in enemies)
+            {
+                e.Draw(spriteBatch);
+            }
+
+            foreach (Coin c in coins)
+            {
+                c.Draw(spriteBatch);
+            }
+
             spriteBatch.End();
+
+            
 
             //          All GUI components below
             spriteBatch.Begin();
-            spriteBatch.DrawString(arialFont, "Score : " + score.ToString(), new Vector2(1180, 30), Color.White);
+            spriteBatch.DrawString(arialFont, "Score : " + score.ToString(), new Vector2(30, 200), Color.White);
 
-            for (int i = 0; i < lives; i++)
+            for (int i = 0; i < player.lives; i++)
             {
                 spriteBatch.Draw(heart, new Vector2(20 + i * 35, 20), null, Color.White, 0f, new Vector2(0,0), 1.35f, SpriteEffects.None, 0f);
             }
+            spriteBatch.End();
+
+            //          All debugging outputs below
+            spriteBatch.Begin();
+            spriteBatch.DrawString(arialFont, "Position X = " + player.Position.X.ToString() + "Position Y = " + player.Position.Y.ToString(), new Vector2(50, 80), Color.Black);
+            spriteBatch.DrawString(arialFont, "Position X = " + player.Position.X.ToString() + "Position Y = " + player.Position.Y.ToString(), new Vector2(50, 120), Color.White);
             spriteBatch.End();
             
             base.Draw(gameTime);

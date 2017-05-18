@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Superhero_violin_no_intro.ogg</SourceFile>
+  <SourceFile>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Superhero_violin_no_intro.ogg</SourceFile>
   <SourceTime>2016-05-17T15:23:04+09:30</SourceTime>
-  <DestFile>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/bin/Windows/Superhero_violin_no_intro.xnb</DestFile>
-  <DestTime>2017-05-08T18:13:30+09:30</DestTime>
+  <DestFile>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/bin/Windows/Superhero_violin_no_intro.xnb</DestFile>
+  <DestTime>2017-05-18T11:56:00+09:30</DestTime>
   <Importer>OggImporter</Importer>
-  <ImporterTime>2016-03-22T08:22:00+10:30</ImporterTime>
+  <ImporterTime>2016-03-30T17:06:08+10:30</ImporterTime>
   <Processor>SongProcessor</Processor>
-  <ProcessorTime>2016-03-22T08:22:00+10:30</ProcessorTime>
+  <ProcessorTime>2016-03-30T17:06:08+10:30</ProcessorTime>
   <Parameters>
     <Key>Quality</Key>
     <Value>Best</Value>
@@ -15,6 +15,6 @@
   <Dependencies />
   <BuildAsset />
   <BuildOutput>
-    <string>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/bin/Windows/Superhero_violin_no_intro.wma</string>
+    <string>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/bin/Windows/Superhero_violin_no_intro.wma</string>
   </BuildOutput>
 </PipelineBuildEvent>

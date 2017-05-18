@@ -21,9 +21,12 @@ namespace Platformer
 
         bool isFalling = true;
         bool isJumping = false;
+        bool autoJump = true;
+        public int lives = 5;
 
         Vector2 velocity = Vector2.Zero;
-        Vector2 position = Vector2.Zero;
+        //Vector2 position = Vector2.Zero;  do we even need this 
+        Vector2 scale = Vector2.Zero;
 
         // sound related stuff
         SoundEffect jumpSound;
@@ -35,32 +38,79 @@ namespace Platformer
             {
                 return sprite.position;
             }
+
+            set
+            {
+                sprite.position = value;
+            }
         }
 
+        public Vector2 Velocity
+        {
+            get
+            {
+                return velocity;
+            }
+
+            set
+            {
+                velocity = value;
+            }
+        }
+
+        public Rectangle Bounds
+        {
+            get
+            {
+                return sprite.Bounds;
+            }
+        }
+
+        public bool IsJumping
+        {
+            get
+            {
+                return isJumping;
+            }
+        }
+
+        public void JumpOnCollision()
+        {
+            autoJump = true;
+        }
 
 
         public Player(Game1 game)
         {
-            sprite.colour = new Color(89, 66, 244, 1);
+            sprite.colour = new Color(255, 255, 255, 255);
 
             this.game = game;
             isFalling = true;
             isJumping = false;
             velocity = Vector2.Zero;
-            position = Vector2.Zero;
+            //position = Vector2.Zero;  is this even needed??
+            scale = new Vector2(0.3f, 0.3f);
             
         }
 
         public void Load(ContentManager content)
         {
-            AnimatedTexture animation = new AnimatedTexture(Vector2.Zero, 0, 1, 1);
-            animation.Load(content, "walk", 12, 20);
+            AnimatedTexture animation = new AnimatedTexture(Vector2.Zero, 0,  scale, 1);
+            animation.Load(content, "DudeWalking", 9, 13);
 
-            sprite.Add(animation, 0, -5);
+            sprite.scale = scale;       //setting the sprite scale(used for bounds) to the player scale
+            sprite.Add(animation, 0, 1);
             sprite.Pause();
 
             jumpSound = content.Load<SoundEffect>("Jump");
             jumpSoundInstance = jumpSound.CreateInstance();
+        }
+
+        public void Respawn()
+        {
+            lives--;
+            velocity = new Vector2(0,0);
+            Position = new Vector2(0, 0);
         }
 
         private void UpdateInput(float deltaTime)
@@ -95,8 +145,9 @@ namespace Platformer
             }
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.W) == true && this.isJumping == false && falling == false)
+            if ((Keyboard.GetState().IsKeyDown(Keys.W) == true && this.isJumping == false && falling == false) || autoJump == true)
             {
+                autoJump = false;
                 acceleration.Y -= Game1.jumpImpulse;
                 this.isJumping = true;
                 jumpSoundInstance.Play();

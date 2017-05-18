@@ -4,15 +4,20 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Arial.spritefont</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/FantasyTileset.png</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/MyLevel.tmx</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test.tmx</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Tileset.png</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Test3.tmx</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/walk.png</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Heart.png</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Superhero_violin_no_intro.ogg</File>
-    <File>E:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Jump.wav</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Arial.spritefont</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Tileset.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/walk.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Heart.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Superhero_violin_no_intro.ogg</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Jump.wav</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/min.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/ts_32_expansion2.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/PLS.tmx</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/churches.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/16walk.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/mincloud.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/DudeWalking.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/enemy.png</File>
+    <File>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/coin.png</File>
   </SourceFiles>
 </SourceFileCollection>

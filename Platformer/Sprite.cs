@@ -14,6 +14,7 @@ namespace Platformer
         public Vector2 position;
         public Vector2 offset;
         public Color colour;
+        public Vector2 scale;
 
         Texture2D texture;
 
@@ -29,9 +30,10 @@ namespace Platformer
             position = Vector2.Zero;
             offset = Vector2.Zero;
             colour = Color.White;
+            scale = new Vector2(1, 1);
         }
 
-        /*may not be needed*/ public void Load(ContentManager content, string asset)
+        public void Load(ContentManager content, string asset)
         {
             texture = content.Load<Texture2D>(asset);
         }
@@ -61,6 +63,15 @@ namespace Platformer
             else
             {
                 effects = SpriteEffects.None;
+            }
+        }
+
+        public Rectangle Bounds
+        {
+            get
+            {
+                //return new Rectangle(new Point((int)position.X, (int)position.Y), animations[currentAnimation].FrameSize);
+                return new Rectangle((int)position.X, (int)position.Y, (int)(animations[currentAnimation].FrameSize.X * scale.X), (int)(animations[currentAnimation].FrameSize.Y * scale.Y));
             }
         }
 
