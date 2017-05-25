@@ -151,3 +151,6 @@ F:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windo
 F:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\enemy.xnb
 E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\enemy.xnb
 F:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\coin.xnb
+E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\coin.xnb
+E:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\spark.xnb
+F:\AIE\Tutorials\Key Aspects of Game Programming\Platformer\Platformer\bin\Windows\x86\Debug\Content\spark.xnb

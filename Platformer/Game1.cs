@@ -8,22 +8,28 @@ using System;
 using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 using System.Collections;
+using ParticleEffects;
 namespace Platformer
 {
     
     public class Game1 : Game
     {
+        public static Game1 current;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         //player
         Player player = null;
         int score = 0;
+        Emitter fireEmitter = null;
+        Texture2D fireTexture = null;
 
         //game
         Camera2D camera = null;
         TiledMap map = null;
-        TiledTileLayer collisionLayer;
+        public TiledTileLayer collisionLayer;
+        public TiledTileLayer killLayer;
         Song gameMusic;
 
         //enemies
@@ -71,6 +77,7 @@ namespace Platformer
 
         public Game1()
         {
+            current = this;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             this.IsFixedTimeStep = false;
@@ -103,6 +110,8 @@ namespace Platformer
             // TODO: use this.Content to load your game content here
             player.Load(Content);
 
+            LoadEmitter();           
+
             arialFont = Content.Load<SpriteFont>("Arial");
 
             heart = Content.Load<Texture2D>("Heart");
@@ -116,6 +125,13 @@ namespace Platformer
             {
                 if (layer.Name == "Collisions")
                     collisionLayer = layer;
+            }
+
+            map = Content.Load<TiledMap>("PLS");
+            foreach (TiledTileLayer layer in map.TileLayers)
+            {
+                if (layer.Name == "KillTiles")
+                    killLayer = layer;
             }
 
             // game music 
@@ -135,6 +151,20 @@ namespace Platformer
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+        }
+
+        private void LoadEmitter()
+        {
+            fireTexture = Content.Load<Texture2D>("spark");
+            fireEmitter = new Emitter(fireTexture, player.Position);
+            fireEmitter.gravity = 0f;
+            fireEmitter.wind = 0f;
+            fireEmitter.emissionSize = Vector2.Zero;
+            fireEmitter.minSize = 5f;
+            fireEmitter.maxSize = 0.2f;
+            fireEmitter.minVelocity = Vector2.Zero;
+            fireEmitter.maxVelocity = Vector2.Zero;
+            fireEmitter.maxLife = 0.5f;
         }
 
         // loads all enemies
@@ -157,8 +187,24 @@ namespace Platformer
         // loads all coins
         private void LoadAllCoins()
         {
-            LoadCoin(47, 256);
-            LoadCoolCoin(55, 256);
+            LoadCoin(85, 256);
+            LoadCoin(70, 256);
+            LoadCoin(55, 256);
+            LoadCoin(475, 240);
+            LoadCoin(395, 240);
+            LoadCoin(723, 32);
+            LoadCoin(1185, 144);
+            LoadCoin(1155, 32);
+            LoadCoin(1265, 80);
+            LoadCoin(1340, 80);
+            LoadCoin(1420, 80);
+            LoadCoin(1012, 80);
+            LoadCoolCoin(140, 240);
+            LoadCoolCoin(645, 32);
+            LoadCoolCoin(661, 32);
+            LoadCoolCoin(679, 32);
+            LoadCoolCoin(1570, 32);
+            LoadCoolCoin(1770, 176);
         }
 
 
@@ -208,8 +254,8 @@ namespace Platformer
                         // respawn player, reset score, remove all enemies, reload all enemies
                         player.Respawn();
                         score = 0;
-                        //ADD IN SOME CODE TO REMOVE ALL ENEMIES 
-                        //LoadAllEnemies();
+                        enemies.Clear();
+                        LoadAllEnemies();
                     }
                 }
                 
@@ -254,6 +300,14 @@ namespace Platformer
             }
         }
 
+        private void UpdateEmitter(GameTime gameTime)
+        {
+            fireEmitter.position = new Vector2((player.Position.X + (player.Bounds.Width / 2)), (player.Position.Y + player.Bounds.Height + 1));
+            
+            fireEmitter.Update(gameTime);
+
+        }
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -263,6 +317,15 @@ namespace Platformer
             deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             player.Update(deltaTime);
+            if (player.IsJumping == false && player.Velocity.X != 0)
+            {
+                UpdateEmitter(gameTime);
+            }
+            else
+            {
+                fireEmitter.Update(gameTime);
+            }
+
             foreach (Enemy e in enemies)
             {
                 e.Update(deltaTime);
@@ -277,8 +340,8 @@ namespace Platformer
             // minus (eg towards the top left) half of the screen size
             camera.Position = player.Position - new Vector2(viewWidth / 2, viewHeight/2);
 
-            CheckEnemyCollisions();
-            CheckCoinCollisions();
+            //CheckEnemyCollisions();
+            //CheckCoinCollisions();
 
             base.Update(gameTime);
 
@@ -295,8 +358,14 @@ namespace Platformer
             map.Draw(camera); 
             
             spriteBatch.Begin(transformMatrix: t);
-            player.Draw(spriteBatch);
+            
 
+            //if (player.IsJumping == false && player.Velocity.X != 0)
+            {
+                fireEmitter.Draw(spriteBatch);
+            }
+            
+            player.Draw(spriteBatch);
             foreach (Enemy e in enemies)
             {
                 e.Draw(spriteBatch);
@@ -321,16 +390,16 @@ namespace Platformer
             }
             spriteBatch.End();
 
-            //          All debugging outputs below
-            spriteBatch.Begin();
-            spriteBatch.DrawString(arialFont, "Position X = " + player.Position.X.ToString() + "Position Y = " + player.Position.Y.ToString(), new Vector2(50, 80), Color.Black);
-            spriteBatch.DrawString(arialFont, "Position X = " + player.Position.X.ToString() + "Position Y = " + player.Position.Y.ToString(), new Vector2(50, 120), Color.White);
-            spriteBatch.End();
-            
+            //All debugging outputs below
+            //spriteBatch.Begin();
+            //spriteBatch.DrawString(arialFont, "Position X = " + player.Position.X.ToString() + "Position Y = " + player.Position.Y.ToString(), new Vector2(50, 80), Color.Black);
+            //spriteBatch.DrawString(arialFont, "Position X = " + player.Position.X.ToString() + "Position Y = " + player.Position.Y.ToString(), new Vector2(50, 120), Color.White);
+            //spriteBatch.End();
+
             base.Draw(gameTime);
         }
 
-        public int CellAtTileCoord(int tx, int ty)
+        public int CellAtTileCoord(int tx, int ty, TiledTileLayer layer)
         {
             if (tx < 0 || tx >= map.Width || ty < 0)
                 return 1;
@@ -338,7 +407,7 @@ namespace Platformer
             if (ty >= map.Height)
                 return 0;
 
-            TiledTile tile = collisionLayer.GetTile(tx, ty);
+            TiledTile tile = layer.GetTile(tx, ty);
             return tile.Id;
         }
 
@@ -349,20 +418,20 @@ namespace Platformer
 
         public int TileToPixel(float tileCoord)
         {
-            return (int)(tile * tileCoord);  //MAKE SURE THIS IS CORRECT, BOTH CASTING THIS AS A INT AND MAKING SURE IT IS USING THE CORRECT TILE VARIABLE (is it the one in the above function, or the value 64 at the top of this code)
+            return (int)(tile * tileCoord);  
         }
 
-        public int CellAtPixelCoord(Vector2 pixelCoords)
-        {
-            if (pixelCoords.X < 0 || pixelCoords.X > map.WidthInPixels || pixelCoords.Y < 0)
-                return 1;
-            // lets the player drop to the bottom of the screen == death
+        //public int CellAtPixelCoord(Vector2 pixelCoords)
+        //{
+        //    if (pixelCoords.X < 0 || pixelCoords.X > map.WidthInPixels || pixelCoords.Y < 0)
+        //        return 1;
+        //    // lets the player drop to the bottom of the screen == death
 
-            if (pixelCoords.Y > map.HeightInPixels)
-                return 0;
+        //    if (pixelCoords.Y > map.HeightInPixels)
+        //        return 0;
 
-            return CellAtTileCoord(PixelToTile(pixelCoords.X), PixelToTile(pixelCoords.Y));
-        }
+        //    return CellAtTileCoord(PixelToTile(pixelCoords.X), PixelToTile(pixelCoords.Y));
+        //}
 
         
     }

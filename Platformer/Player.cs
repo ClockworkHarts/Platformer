@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using MonoGame.Extended.Maps.Tiled;
+
 
 namespace Platformer
 {
@@ -19,13 +21,15 @@ namespace Platformer
         // so we can check for collisions on the map
         Game1 game = null;
 
-        bool isFalling = true;
+        bool isFalling = false;
         bool isJumping = false;
-        bool autoJump = true;
+        bool autoJump = false;
         public int lives = 5;
-
+        bool wasMovingRight;
+        bool wasMovingLeft;
+        
+        
         Vector2 velocity = Vector2.Zero;
-        //Vector2 position = Vector2.Zero;  do we even need this 
         Vector2 scale = Vector2.Zero;
 
         // sound related stuff
@@ -88,7 +92,6 @@ namespace Platformer
             isFalling = true;
             isJumping = false;
             velocity = Vector2.Zero;
-            //position = Vector2.Zero;  is this even needed??
             scale = new Vector2(0.3f, 0.3f);
             
         }
@@ -110,13 +113,13 @@ namespace Platformer
         {
             lives--;
             velocity = new Vector2(0,0);
-            Position = new Vector2(0, 0);
+            Position = new Vector2(0,0);
         }
 
         private void UpdateInput(float deltaTime)
         {
-            bool wasMovingLeft = velocity.X < 0;
-            bool wasMovingRight = velocity.X > 0;
+            wasMovingLeft = velocity.X < 0;
+            wasMovingRight = velocity.X > 0;
             bool falling = isFalling;
 
             Vector2 acceleration = new Vector2(0, Game1.gravity);
@@ -182,12 +185,12 @@ namespace Platformer
             if (velocity.X == 0 || isFalling == true || isJumping == true)
             {
                 sprite.Pause();
-            }
+            }      
 
+        }
 
-
-            //BELOW IS ALL COLLISION LOGIC\\
-
+        private Object[] CollisionLogic(TiledTileLayer layer)
+        {
             int tx = game.PixelToTile(sprite.position.X);
             int ty = game.PixelToTile(sprite.position.Y);
 
@@ -199,14 +202,30 @@ namespace Platformer
             // therefore the bools are true
             // nx checks left/right overlapping
             // ny checks up/down overlapping 
+
             bool nx = (sprite.position.X) % Game1.tile != 0;
             bool ny = (sprite.position.Y) % Game1.tile != 0;
 
-            bool cell = game.CellAtTileCoord(tx, ty) != 0;
-            bool cellright = game.CellAtTileCoord(tx + 1, ty) != 0;
-            bool celldown = game.CellAtTileCoord(tx, ty + 1) != 0;
-            bool celldiag = game.CellAtTileCoord(tx + 1, ty + 1) != 0;
+            bool cell = game.CellAtTileCoord(tx, ty, layer) != 0;
+            bool cellright = game.CellAtTileCoord(tx + 1, ty, layer) != 0;
+            bool celldown = game.CellAtTileCoord(tx, ty + 1, layer) != 0;
+            bool celldiag = game.CellAtTileCoord(tx + 1, ty + 1, layer) != 0;
 
+            return new Object[] { tx , ty , nx, ny, cell, cellright, celldown, celldiag};
+        }
+
+        private void CollisionLayer(TiledTileLayer layer)
+        {
+            Object[] CollisionData = CollisionLogic(layer);
+
+            int tx = (int)CollisionData[0];
+            int ty = (int)CollisionData[1];
+            bool nx = (bool)CollisionData[2];
+            bool ny = (bool)CollisionData[3];
+            bool cell = (bool)CollisionData[4];
+            bool cellright = (bool)CollisionData[5];
+            bool celldown = (bool)CollisionData[6];
+            bool celldiag = (bool)CollisionData[7];
 
             //if player has vertical velocity
             //check to see if they have collided with a platform above or below
@@ -260,14 +279,111 @@ namespace Platformer
             // then we need to detect if the player is falling or not
             // we do this by seeing if there is a cell below them
             this.isFalling = !(celldown || (nx && celldiag));
-        
+        }
+
+        private void KillLayer(TiledTileLayer layer)
+        {
+            Object[] CollisionData = CollisionLogic(layer);
+
+            int tx = (int)CollisionData[0];
+            int ty = (int)CollisionData[1];
+            bool nx = (bool)CollisionData[2];
+            bool ny = (bool)CollisionData[3];
+            bool cell = (bool)CollisionData[4];
+            bool cellright = (bool)CollisionData[5];
+            bool celldown = (bool)CollisionData[6];
+            bool celldiag = (bool)CollisionData[7];
+
+            //if player has vertical velocity
+            //check to see if they have collided with a platform above or below
+            //if they have clamp their vertical velocity
+            if (this.velocity.Y > 0)
+            {
+                if ((celldown && !cell) || (celldiag && !cellright && nx))
+                {
+                    if (wasMovingRight == true)
+                    {
+                        this.velocity.Y = -Game1.jumpImpulse;
+                        this.velocity.X = Game1.jumpImpulse;
+                        this.isFalling = false;
+                        this.isJumping = false;
+                        ny = false;
+                        lives--;
+                    }
+                    else
+                    {
+                        this.velocity.Y = -Game1.jumpImpulse;
+                        this.velocity.X = -Game1.jumpImpulse;
+                        this.isFalling = false;
+                        this.isJumping = false;
+                        ny = false;
+                        lives--;
+                    }
+
+                }
+            }
+            else if (this.velocity.Y < 0)
+            {
+                if ((cell && !celldown) || (cellright && !celldiag && nx))
+                {
+                    if (wasMovingRight == true)
+                    {
+                        this.velocity.Y = -Game1.jumpImpulse;
+                        this.velocity.X = Game1.jumpImpulse;
+                        this.isFalling = false;
+                        this.isJumping = false;
+                        ny = false;
+                        lives--;
+                    }
+                    else
+                    {
+                        this.velocity.Y = -Game1.jumpImpulse;
+                        this.velocity.X = -Game1.jumpImpulse;
+                        this.isFalling = false;
+                        this.isJumping = false;
+                        ny = false;
+                        lives--;
+                    }
+
+                }
+            }
+
+
+            //same as above but for horizontal velocity
+            if (this.velocity.X > 0)
+            {
+                if ((cellright && !cell) || (celldiag && !celldown && ny))
+                {
+                    sprite.position.X = game.TileToPixel(tx);
+                    this.velocity.X = 0;
+                    sprite.Pause();
+                }
+            }
+            else if (this.velocity.X < 0)
+            {
+                if ((cell && !cellright) || (celldown && !celldiag && ny))
+                {
+                    sprite.position.X = game.TileToPixel(tx + 1);
+                    this.velocity.X = 0;
+                    sprite.Pause();
+                }
+            }
 
         }
+
 
         public void Update(float deltaTime)
         {
             sprite.Update(deltaTime);
+            CollisionLayer(Game1.current.collisionLayer);
+            KillLayer(Game1.current.killLayer);
             UpdateInput(deltaTime);
+
+            if (invincibilityTimer > 0)
+            {
+                InvicibilityTimer(deltaTime);
+            }
+            
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -70,7 +70,6 @@ namespace Platformer
         {
             get
             {
-                //return new Rectangle(new Point((int)position.X, (int)position.Y), animations[currentAnimation].FrameSize);
                 return new Rectangle((int)position.X, (int)position.Y, (int)(animations[currentAnimation].FrameSize.X * scale.X), (int)(animations[currentAnimation].FrameSize.Y * scale.Y));
             }
         }

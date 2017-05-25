@@ -79,10 +79,10 @@ namespace Platformer
                 bool nx = (Position.X) % Game1.tile != 0;
                 bool ny = (Position.Y) % Game1.tile != 0;
 
-                bool cell = game.CellAtTileCoord(tx, ty) != 0;
-                bool cellright = game.CellAtTileCoord(tx + 1, ty) != 0;
-                bool celldown = game.CellAtTileCoord(tx, ty + 1) != 0;
-                bool celldiag = game.CellAtTileCoord(tx + 1, ty + 1) != 0;
+                bool cell = game.CellAtTileCoord(tx, ty, Game1.current.collisionLayer) != 0;
+                bool cellright = game.CellAtTileCoord(tx + 1, ty, Game1.current.collisionLayer) != 0;
+                bool celldown = game.CellAtTileCoord(tx, ty + 1, Game1.current.collisionLayer) != 0;
+                bool celldiag = game.CellAtTileCoord(tx + 1, ty + 1, Game1.current.collisionLayer) != 0;
 
                 if (moveRight)
                 {

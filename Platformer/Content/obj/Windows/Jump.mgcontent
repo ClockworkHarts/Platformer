@@ -3,7 +3,7 @@
   <SourceFile>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/Jump.wav</SourceFile>
   <SourceTime>2016-05-27T12:47:16+09:30</SourceTime>
   <DestFile>F:/AIE/Tutorials/Key Aspects of Game Programming/Platformer/Platformer/Content/bin/Windows/Jump.xnb</DestFile>
-  <DestTime>2017-05-18T11:56:00+09:30</DestTime>
+  <DestTime>2017-05-25T09:20:36+09:30</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2016-03-30T17:06:08+10:30</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>
